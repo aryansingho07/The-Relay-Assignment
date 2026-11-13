@@ -1,0 +1,125 @@
+THE RELAY / Python implementation
+
+Benchmark scope: local stand-in. Hosted Groq measurements and provider calibration are pending.
+
+1. What I built and why
+
+Model planning, BM25 retrieval tool, model extractive drafting, local quotation/citation verification, then model relevance checking and output. The decisive choice: buffer until verification. Admission bounds concurrency and queue depth; a deadline includes waiting and retries. Citations retain PDF page and arXiv version. The semantic checker remains fallible.
+
+2. The real service and my stand-in
+
+Real account limits, latency and recovery were not measured. Groq documents organization-wide quotas and HTTP 429 with Retry-After. Its requests header means daily requests; its tokens header means minute tokens. The HTTP/SSE stand-in has lognormal prefill, token pacing, injected errors/tails, load-sensitive delays and rolling quotas. Defaults are assumptions. The real command fits prefill median/log dispersion only; provider queues and correlated failures remain unknown.
+
+Table 1: limit | Value found | How found | Confidence
+
+Requests/minute | 30 documented; account not measured | Groq free-plan docs, gpt-oss-20b | medium
+
+Tokens/minute | 8,000 documented; account not measured | Same documentation | medium
+
+Requests/day | 1,000 documented; account not measured | Same documentation | medium
+
+Tokens/day | 200,000 documented; account not measured | Same documentation | medium
+
+In flight at once | not measured | No account experiment | low
+
+Limit response | 429 + Retry-After documented; not observed | Groq rate-limit documentation | medium
+
+Recovery time | not measured | No real 429 observed | low
+
+3. Results
+
+The stand-in burst completed 5 of 60 requests. Total-time percentiles include immediate rejections, which can drive the median down as completion falls. First-token percentiles count requests that emitted verified output. The tables use wall-clock measurements from results.csv.
+
+4. Where the time goes
+
+<b>steady-balanced-0008</b> took 2,070.9 ms: 0.0 ms waiting, 1,656.9 ms working and 414.0 ms in retry waits. The first verified token appeared at 1,248.0 ms, leaving 822.9 ms after it. The trace timestamps the retry waits before output. Working includes the model, network, retrieval and output pacing.
+
+5. When a limit is hit
+
+An admitted request can wait for one retry per stage after a minute-limit 429. The original deadline still applies. A full queue rejects new arrivals. Low token headroom reduces passage count, which can weaken evidence coverage. Daily exhaustion opens a circuit breaker and returns the budget message to queued and new requests.
+
+Retrieval: quality versus cost
+
+Table 3 compares page-local pieces and lexical phrase re-ranking. <b>small</b> had the highest combined score for correct answers and correct refusals, and used the fewest tokens. Load runs used balanced. Under token pressure the pipeline fetches two passages. The 18-question development set guided retrieval changes. The stand-in checks quotation structure and the grading rubric uses keywords and citation pages.
+
+How this library will mislead a naive retriever
+
+Repeated titles: "Which optimizer trains the Transformer?" can retrieve the author block. Adjacent translation results: "What English-to-German BLEU?" can return English-to-French BLEU. Different latency definitions: "Moshi theoretical and practical latency?" can retrieve an ablation's theoretical delay while omitting the practical figure. Title stripping helps; neither citation syntax nor lexical overlap proves relevance.
+
+6. Retries
+
+Each stage can retry a transport error, malformed JSON or transient HTTP response once. Authentication and daily limits fail immediately. In the paired stress test, request 0001 hit a repeatable planning fault. Table 2c shows the added wait and the same terminal error. Retries also raised the scenario timeout rate in Table 2b.
+
+7. What the person sees
+
+At 3pm: "The model budget for today is exhausted. I cannot safely finish your answer now. Please try after the provider quota resets; your request has not been left waiting." The stand-in assumes a UTC-midnight daily reset; Groq reset timing was not measured.
+
+8. What I'm unsure about, what I left out, what I learned
+
+Independent lognormal latency is least certain; correlated congestion would make tails optimistic. Deliberately omitted: distributed scheduling and a neural reranker. Lesson: a citation proves where words occur, not that they answer the question. The keyword/page rubric can overcount correctness or miss valid wording; stored answers need manual review.
+
+Your feedback on Vaani
+
+Homepage review by the assistant. The examples of turn-taking and handling silence made the voice product concrete. The term "voice AI harness" and multiple platform domains made the starting point hard to find. I would feature a sample call with the voice, language and latency conditions next to it.
+
+Sources checked 10 Nov 2026: console.groq.com/docs/rate-limits; console.groq.com/docs/text-chat; www.vaani.dev. Library manifest records the three exact version URLs and SHA-256 digests.
+
+Results tables / recomputable from results.csv
+
+p50 / p95 / p99 use linear interpolation. First token = first verified visible answer token, not an internal model delta. All time values are milliseconds except duration. Tokens/answer includes observed tokens spent on failures divided by completed answers; stand-in tokens use ceil(characters/4). Cost is the free API bill, excluding local compute. No completed answers means tokens/answer and cost/1,000 are not measured. Offered rate uses the scheduled arrival span; burst arrivals are simultaneous. Quota window and configurations are raw CSV columns.
+
+Table 2a: scenario / source | Sent / duration (s) / offered per min | First-token n | First token p50 / p95 / p99 (ms) | Total p50 / p95 / p99 (ms)
+
+steady / stand-in | 18 / 12.5 / 90.756 | 17 | 532.0 / 1,666.4 / 2,135.0 | 924.8 / 2,114.6 / 2,312.8
+
+burst / stand-in | 60 / 2.7 / simultaneous | 5 | 909.4 / 1,209.7 / 1,267.3 | 0.0 / 2,513.8 / 2,513.8
+
+sustained overload / stand-in | 80 / 5.8 / 1518.987 | 7 | 1,005.9 / 1,562.7 / 1,588.9 | 0.0 / 2,514.8 / 2,515.8
+
+per-minute limit halved / stand-in | 36 / 5.8 / 685.714 | 3 | 432.1 / 1,317.5 / 1,396.1 | 2,503.5 / 2,515.9 / 2,516.2
+
+daily budget exhausted / stand-in | 18 / 0.5 / 3176.471 | 0 | not measured / not measured / not measured | 0.0 / 0.7 / 3.7
+
+retry stress off / stand-in | 18 / 2.6 / 794.118 | 3 | 1,393.6 / 1,418.0 / 1,420.2 | 114.0 / 1,600.1 / 1,887.9
+
+retry stress on / stand-in | 18 / 4.0 / 794.118 | 1 | 1,404.5 / 1,404.5 / 1,404.5 | 2,223.8 / 2,510.4 / 2,513.6
+
+Real service | not measured | not measured | not measured | not measured
+
+Table 2b: scenario | Succeeded % | Rate-limited % | Timeout / given up % | Error % | Retries / request | Peak queue | Tokens / answer | USD / 1,000 answers
+
+steady | 94.4 | 5.6 | 0.0 | 0.0 | 0.28 | 0 | 1,899.2 | 0.00
+
+burst | 8.3 | 73.3 | 16.7 | 1.7 | 0.08 | 12 | 3,366.0 | 0.00
+
+sustained overload | 8.8 | 61.2 | 30.0 | 0.0 | 0.31 | 12 | 2,186.6 | 0.00
+
+per-minute limit halved | 8.3 | 33.3 | 58.3 | 0.0 | 0.58 | 12 | 1,622.7 | 0.00
+
+daily budget exhausted | 0.0 | 100.0 | 0.0 | 0.0 | 0.00 | 0 | not measured | not measured
+
+retry stress off | 16.7 | 22.2 | 0.0 | 61.1 | 0.00 | 4 | 3,449.0 | 0.00
+
+retry stress on | 5.6 | 0.0 | 50.0 | 44.4 | 0.94 | 6 | 5,784.0 | 0.00
+
+Real service | not measured | not measured | not measured | not measured | not measured | not measured | not measured | not measured
+
+Table 2c: retry case 0001 | Total (ms) | Retry wait (ms) | Retries | Outcome
+
+retry stress off | 6.5 | 0.0 | 0 | error
+
+retry stress on | 190.6 | 181.1 | 1 | error
+
+Table 3: words / k / re-rank | Asked | Correct + cited % | Wrong % | Correct refusal % | Wrong refusal % | Tokens / answer | First p50 / p95 (ms) | Total p50 / p95 (ms)
+
+small: 120 / 2 / no | 18 | 61.1 | 11.1 | 22.2 | 5.6 | 838.2 | 810.0 / 1,432.0 | 1,155.3 / 1,841.1
+
+balanced: 240 / 4 / yes | 18 | 55.6 | 16.7 | 22.2 | 5.6 | 1,911.8 | 719.7 / 1,188.6 | 1,133.8 / 1,493.7
+
+large: 420 / 6 / yes | 18 | 44.4 | 27.8 | 22.2 | 5.6 | 3,706.3 | 677.6 / 993.4 | 893.9 / 1,363.0
+
+How I worked with the assistant
+
+The available prompts are recorded in conversation_history.txt. The first selected Python for the implementation. The second overruled the proposed live Groq run and set the scope of the measurements. The third asked for the GitHub submission and a brief-aligned write-up, which prompted a check of the required tables and retry example.
+
+During that check, the assistant found that the earlier write-up discussed retry failures only in aggregate. The paired request trace now shows a repeated planning fault directly. The recorded user decisions concern the language, experiment scope and repository. The assistant wrote the implementation and analyses. A mistake caught personally by the candidate and their own reflection remain to be added.

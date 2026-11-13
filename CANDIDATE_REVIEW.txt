@@ -1,0 +1,7 @@
+Remaining assignment requirements
+
+1. Measure live Groq latency, account limits and quota behavior using your own free account. The live runs were omitted at your request. README.md documents how to run the probe and record the evidence. Use the resulting observations to calibrate the stand-in.
+
+2. Add your personal reflection under "How I worked with the assistant" in relay/report.py and regenerate the two-page PDF. The report identifies the three available prompts and the decision to skip the live run. Add a mistake you personally found, how you checked it and the work or choices you can claim as yours. Review the Vaani homepage and add your own feedback.
+
+3. Review the stored answers and grading in results.csv. The development questions helped tune retrieval. The automated rubric checks keywords and expected citation pages, and the stand-in performs a structural check.

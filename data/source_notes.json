@@ -1,0 +1,25 @@
+{
+  "checked_date": "2026-11-10",
+  "groq": {
+    "limits_url": "https://console.groq.com/docs/rate-limits",
+    "streaming_url": "https://console.groq.com/docs/text-chat",
+    "model": "openai/gpt-oss-20b",
+    "documented_free_limits": {"rpm": 30, "tpm": 8000, "rpd": 1000, "tpd": 200000},
+    "observed_account_limits": "not measured",
+    "header_units": {"x-ratelimit-limit-requests": "requests per day", "x-ratelimit-limit-tokens": "tokens per minute"},
+    "documented_limit_response": "HTTP 429; retry-after in seconds",
+    "real_calls_performed": false
+  },
+  "vaani": {
+    "url": "https://www.vaani.dev/",
+    "review_scope": "Public homepage text; no demo call or product account tested",
+    "assessment_author": "assistant; candidate review required"
+  },
+  "quality": {
+    "question_count": 18,
+    "answerable": 14,
+    "unanswerable": 4,
+    "set_role": "development; used to debug retrieval, not held out",
+    "judge": "keyword plus expected citation page; manual semantic review still required"
+  }
+}

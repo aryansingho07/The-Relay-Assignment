@@ -1,0 +1,286 @@
+{
+  "scenarios": {
+    "steady|stand-in": {
+      "n": 18,
+      "duration_s": 12.544022,
+      "rate": "90.756",
+      "first": [
+        532.033,
+        1666.3971999999994,
+        2135.0250399999995
+      ],
+      "first_n": 17,
+      "total": [
+        924.7555,
+        2114.615399999999,
+        2312.8190799999993
+      ],
+      "ok_pct": 94.44444444444444,
+      "rate_limited_pct": 5.555555555555555,
+      "timeout_pct": 0.0,
+      "error_pct": 0.0,
+      "retries": 0.2777777777777778,
+      "peak_queue": 0,
+      "tokens": 1899.1764705882354,
+      "cost": 0.0,
+      "correct_pct": 50.0,
+      "wrong_pct": 16.666666666666668,
+      "refused_correctly_pct": 22.22222222222222,
+      "refused_wrongly_pct": 11.11111111111111
+    },
+    "burst|stand-in": {
+      "n": 60,
+      "duration_s": 2.721979,
+      "rate": "simultaneous",
+      "first": [
+        909.357,
+        1209.6725999999999,
+        1267.2521199999999
+      ],
+      "first_n": 5,
+      "total": [
+        0.003,
+        2513.81005,
+        2513.812
+      ],
+      "ok_pct": 8.333333333333334,
+      "rate_limited_pct": 73.33333333333333,
+      "timeout_pct": 16.666666666666668,
+      "error_pct": 1.6666666666666667,
+      "retries": 0.08333333333333333,
+      "peak_queue": 12,
+      "tokens": 3366.0,
+      "cost": 0.0,
+      "correct_pct": 5.0,
+      "wrong_pct": 1.6666666666666667,
+      "refused_correctly_pct": 0.0,
+      "refused_wrongly_pct": 93.33333333333333
+    },
+    "sustained overload|stand-in": {
+      "n": 80,
+      "duration_s": 5.784461,
+      "rate": "1518.987",
+      "first": [
+        1005.901,
+        1562.7036,
+        1588.87752
+      ],
+      "first_n": 7,
+      "total": [
+        0.0465,
+        2514.7942,
+        2515.83623
+      ],
+      "ok_pct": 8.75,
+      "rate_limited_pct": 61.25,
+      "timeout_pct": 30.0,
+      "error_pct": 0.0,
+      "retries": 0.3125,
+      "peak_queue": 12,
+      "tokens": 2186.5714285714284,
+      "cost": 0.0,
+      "correct_pct": 3.75,
+      "wrong_pct": 3.75,
+      "refused_correctly_pct": 0.0,
+      "refused_wrongly_pct": 92.5
+    },
+    "per-minute limit halved|stand-in": {
+      "n": 36,
+      "duration_s": 5.808341,
+      "rate": "685.714",
+      "first": [
+        432.112,
+        1317.4500999999998,
+        1396.14682
+      ],
+      "first_n": 3,
+      "total": [
+        2503.4795,
+        2515.87875,
+        2516.2133
+      ],
+      "ok_pct": 8.333333333333334,
+      "rate_limited_pct": 33.333333333333336,
+      "timeout_pct": 58.333333333333336,
+      "error_pct": 0.0,
+      "retries": 0.5833333333333334,
+      "peak_queue": 12,
+      "tokens": 1622.6666666666667,
+      "cost": 0.0,
+      "correct_pct": 5.555555555555555,
+      "wrong_pct": 2.7777777777777777,
+      "refused_correctly_pct": 0.0,
+      "refused_wrongly_pct": 91.66666666666667
+    },
+    "daily budget exhausted|stand-in": {
+      "n": 18,
+      "duration_s": 0.547205,
+      "rate": "3176.471",
+      "first": [
+        null,
+        null,
+        null
+      ],
+      "first_n": 0,
+      "total": [
+        0.028,
+        0.7212499999999937,
+        3.6962499999999925
+      ],
+      "ok_pct": 0.0,
+      "rate_limited_pct": 100.0,
+      "timeout_pct": 0.0,
+      "error_pct": 0.0,
+      "retries": 0.0,
+      "peak_queue": 0,
+      "tokens": null,
+      "cost": null,
+      "correct_pct": 0.0,
+      "wrong_pct": 0.0,
+      "refused_correctly_pct": 0.0,
+      "refused_wrongly_pct": 100.0
+    },
+    "retry stress off|stand-in": {
+      "n": 18,
+      "duration_s": 2.619057,
+      "rate": "794.118",
+      "first": [
+        1393.58,
+        1418.0366,
+        1420.2105199999999
+      ],
+      "first_n": 3,
+      "total": [
+        114.0365,
+        1600.0577999999994,
+        1887.9235599999993
+      ],
+      "ok_pct": 16.666666666666668,
+      "rate_limited_pct": 22.22222222222222,
+      "timeout_pct": 0.0,
+      "error_pct": 61.111111111111114,
+      "retries": 0.0,
+      "peak_queue": 4,
+      "tokens": 3449.0,
+      "cost": 0.0,
+      "correct_pct": 11.11111111111111,
+      "wrong_pct": 5.555555555555555,
+      "refused_correctly_pct": 0.0,
+      "refused_wrongly_pct": 83.33333333333333
+    },
+    "retry stress on|stand-in": {
+      "n": 18,
+      "duration_s": 4.037366,
+      "rate": "794.118",
+      "first": [
+        1404.53,
+        1404.53,
+        1404.53
+      ],
+      "first_n": 1,
+      "total": [
+        2223.8315000000002,
+        2510.44925,
+        2513.61465
+      ],
+      "ok_pct": 5.555555555555555,
+      "rate_limited_pct": 0.0,
+      "timeout_pct": 50.0,
+      "error_pct": 44.44444444444444,
+      "retries": 0.9444444444444444,
+      "peak_queue": 6,
+      "tokens": 5784.0,
+      "cost": 0.0,
+      "correct_pct": 0.0,
+      "wrong_pct": 5.555555555555555,
+      "refused_correctly_pct": 0.0,
+      "refused_wrongly_pct": 94.44444444444444
+    }
+  },
+  "retrieval": {
+    "small": {
+      "n": 18,
+      "duration_s": 4.445208,
+      "rate": "397.059",
+      "first": [
+        809.976,
+        1431.99535,
+        1463.11827
+      ],
+      "first_n": 18,
+      "total": [
+        1155.3205,
+        1841.0911999999996,
+        2049.2446399999994
+      ],
+      "ok_pct": 100.0,
+      "rate_limited_pct": 0.0,
+      "timeout_pct": 0.0,
+      "error_pct": 0.0,
+      "retries": 0.0,
+      "peak_queue": 5,
+      "tokens": 838.2222222222222,
+      "cost": 0.0,
+      "correct_pct": 61.111111111111114,
+      "wrong_pct": 11.11111111111111,
+      "refused_correctly_pct": 22.22222222222222,
+      "refused_wrongly_pct": 5.555555555555555
+    },
+    "balanced": {
+      "n": 18,
+      "duration_s": 4.088762,
+      "rate": "397.059",
+      "first": [
+        719.712,
+        1188.5595999999994,
+        1413.3839199999993
+      ],
+      "first_n": 18,
+      "total": [
+        1133.8235,
+        1493.6639499999992,
+        1858.941589999999
+      ],
+      "ok_pct": 100.0,
+      "rate_limited_pct": 0.0,
+      "timeout_pct": 0.0,
+      "error_pct": 0.0,
+      "retries": 0.0,
+      "peak_queue": 4,
+      "tokens": 1911.8333333333333,
+      "cost": 0.0,
+      "correct_pct": 55.55555555555556,
+      "wrong_pct": 16.666666666666668,
+      "refused_correctly_pct": 22.22222222222222,
+      "refused_wrongly_pct": 5.555555555555555
+    },
+    "large": {
+      "n": 18,
+      "duration_s": 3.865356,
+      "rate": "397.059",
+      "first": [
+        677.6234999999999,
+        993.40175,
+        1011.9011499999999
+      ],
+      "first_n": 18,
+      "total": [
+        893.8945,
+        1362.99275,
+        1487.3817499999998
+      ],
+      "ok_pct": 100.0,
+      "rate_limited_pct": 0.0,
+      "timeout_pct": 0.0,
+      "error_pct": 0.0,
+      "retries": 0.0,
+      "peak_queue": 4,
+      "tokens": 3706.277777777778,
+      "cost": 0.0,
+      "correct_pct": 44.44444444444444,
+      "wrong_pct": 27.77777777777778,
+      "refused_correctly_pct": 22.22222222222222,
+      "refused_wrongly_pct": 5.555555555555555
+    }
+  }
+}

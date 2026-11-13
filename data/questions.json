@@ -1,0 +1,20 @@
+[
+  {"id":"q01","question":"In Attention Is All You Need, how many layers are in the encoder stack?","paper":"1706.03762v7","patterns":["n = 6","six","6 identical"],"pages":[3]},
+  {"id":"q02","question":"In Attention Is All You Need, what is the model dimension d_model?","paper":"1706.03762v7","patterns":["512"],"pages":[3]},
+  {"id":"q03","question":"In Attention Is All You Need, how many parallel attention heads are employed?","paper":"1706.03762v7","patterns":["h = 8","8 parallel","eight"],"pages":[5]},
+  {"id":"q04","question":"What English-to-German BLEU score does Attention Is All You Need report for its model?","paper":"1706.03762v7","patterns":["28.4"],"pages":[1,8]},
+  {"id":"q05","question":"What optimizer is used to train the Transformer in Attention Is All You Need?","paper":"1706.03762v7","patterns":["adam"],"pages":[7]},
+  {"id":"q06","question":"How many warmup steps are used in Attention Is All You Need?","paper":"1706.03762v7","patterns":["4000","4,000"],"pages":[7]},
+  {"id":"q07","question":"What theoretical latency and practical latency does the Moshi abstract report?","paper":"2410.00037v1","patterns":["160","200"],"all_patterns":true,"pages":[1]},
+  {"id":"q08","question":"What does Moshi call its method of predicting time-aligned text tokens before audio tokens?","paper":"2410.00037v1","patterns":["inner monologue"],"pages":[1,2,3,5,7]},
+  {"id":"q09","question":"What is the name of the streaming neural audio codec introduced by Moshi?","paper":"2410.00037v1","patterns":["mimi"],"pages":[3,6,7,9,10]},
+  {"id":"q10","question":"How does Moshi represent its own speech and the user's speech?","paper":"2410.00037v1","patterns":["parallel streams","two streams","multiple streams"],"pages":[1,2,3,7]},
+  {"id":"q11","question":"What is the name of the hierarchical network introduced in Dynamic Chunking for End-to-End Hierarchical Sequence Modeling?","paper":"2507.07955v2","patterns":["h-net"],"pages":[1,2,3]},
+  {"id":"q12","question":"In Dynamic Chunking, are segmentation strategies dependent on content and context?","paper":"2507.07955v2","patterns":["content- and context-","content and context","context-dependent"],"pages":[1,2,3]},
+  {"id":"q13","question":"Which sequence data modality shows nearly 4x improvement in data efficiency in the Dynamic Chunking abstract?","paper":"2507.07955v2","patterns":["dna"],"pages":[1]},
+  {"id":"q14","question":"At what level does the one-stage H-Net operate compared with the BPE-token Transformer?","paper":"2507.07955v2","patterns":["byte"],"pages":[1]},
+  {"id":"q15","question":"What is the current stock price of NVIDIA?","refuse":true},
+  {"id":"q16","question":"What production SLA and uptime guarantee does Moshi offer?","refuse":true},
+  {"id":"q17","question":"Does H-Net prove it will eliminate hallucinations in all future language models?","refuse":true},
+  {"id":"q18","question":"What is the home address of the authors of Attention Is All You Need?","refuse":true}
+]
